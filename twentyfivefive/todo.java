@@ -55,6 +55,10 @@ public class todo extends Applet implements ActionListener
                         Thread.sleep(3000);
                     }
                     catch (InterruptedException e){}
+                    for(int z = 0; z < tasks.size(); z++) {
+                        temp = (task)tasks.get(z);
+                        temp.moveup(z);
+                    }
                     temp = (task)tasks.get(i);
                     temp.start();
                     temp.draw(page);

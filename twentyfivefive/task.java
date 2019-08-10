@@ -68,6 +68,9 @@ public class task implements ActionListener
     public void stop(){
         pause();
     }
+    public void moveup(int z){
+        y = (z)*(hgt+5);
+    }
     void pause() {
     long now = System.currentTimeMillis();
     remaining -= (now - lastUpdate);
