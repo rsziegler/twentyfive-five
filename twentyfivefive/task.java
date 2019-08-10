@@ -6,18 +6,23 @@
  * @version (a version number or a date)
  */
 import java.awt.*;
-public class task
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+public class task implements ActionListener
 {
     // instance variables - replace the example below with your own
     private String name;
     private boolean done;
     private int dex;
-    private int time;
+    private Time time;
     private int x;
     private int y;
-    final static int wid = 50;
+    final static int wid = 70;
     final static int hgt = 20;
-
+    long remaining; 
+    long lastUpdate; 
+    Timer timer;
     /**
      * Constructor for objects of class task
      */
@@ -26,15 +31,19 @@ public class task
         name = n;
         done = false;
         dex = i;
-        time = t; // mins
+        time = new Time(t*60); // mins
+        remaining=t*60000;
         y = (dex)*(hgt+5);
         x = 0;
+         timer = new Timer(1000, this);
+         lastUpdate = System.currentTimeMillis();
+         timer.start();
     }
     
     
     public void draw(Graphics page) {
         page.drawRect(x, y, wid, hgt);
-        String data = "" + name + " " + time;
+        String data = "" + name + " " + time.returnTime();
         page.drawString(data, x+5, y+15);
     }
     // getters
@@ -56,6 +65,27 @@ public class task
     {
         done = !done;
     }
+    void pause() {
+    long now = System.currentTimeMillis();
+    remaining -= (now - lastUpdate);
+    timer.stop();
     
     
 }
+void resume() {
+    lastUpdate = System.currentTimeMillis();
+    timer.start(); 
+  }
+  void updateDisplay() {
+    long now = System.currentTimeMillis(); // current time in ms
+    long elapsed = now - lastUpdate; // ms elapsed since last update
+    remaining -= elapsed; // adjust remaining time
+    lastUpdate = now;
+    time.updateTime((int)((remaining+500)/1000));
+}
+public void actionPerformed(ActionEvent e) {
+    updateDisplay();
+  }
+
+}
+
