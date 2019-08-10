@@ -40,7 +40,28 @@ public class todo extends Applet implements ActionListener
         if(tasks.size() > 0) {
             for(int i = 0; i < tasks.size(); i++) {
                 temp = (task)tasks.get(i);
-                temp.draw(page); // who what lasagna
+                if(temp.getDone()){
+                    tasks.remove(i);
+
+                    page.drawString("Beep, Beep",10,50);
+                    try {
+                        // pause the program for a quarter second (in ms)
+                        Thread.sleep(1000);
+                    }
+                    catch (InterruptedException e){}
+                    page.drawString("Time's Up!",10,100);
+                    try {
+                        // pause the program for a quarter second (in ms)
+                        Thread.sleep(3000);
+                    }
+                    catch (InterruptedException e){}
+                    temp = (task)tasks.get(i);
+                    temp.start();
+                    temp.draw(page);
+                }
+                else{
+                    temp.draw(page);
+                }// who what lasagna
             }
         }
         String str1="";
@@ -67,6 +88,7 @@ public class todo extends Applet implements ActionListener
                 if((!str2.equals(""))&&(!str2.equals("Enter task time (in min)"))&&str2.length()<7){
                     int a=Integer.parseInt(str2);
                     tasks.add(new task(str1, tasks.size(), a));
+                    
                 }
                 else{
                     tasks.add(new task(str1, tasks.size(), 45));
@@ -81,6 +103,10 @@ public class todo extends Applet implements ActionListener
                     tasks.add(new task("Task", tasks.size(), 45));
                 }
             }
+            if(tasks.size()==1){
+                task temp=(task)tasks.get(0);
+                temp.start();
+            }
         }
-    }
+   }
 }

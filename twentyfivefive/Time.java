@@ -32,4 +32,8 @@ public class Time
         return minutes+":0"+seconds;
     }
 }
+public int returnTimeInSeconds(){
+    int a=(60*minutes)+seconds;
+    return a;
+}
 }

@@ -35,9 +35,7 @@ public class task implements ActionListener
         remaining=t*60000;
         y = (dex)*(hgt+5);
         x = 0;
-         timer = new Timer(1000, this);
-         lastUpdate = System.currentTimeMillis();
-         timer.start();
+        timer = new Timer(1000, this);
     }
     
     
@@ -55,7 +53,6 @@ public class task implements ActionListener
     {
         return done;
     }
-    
     // setters
     public void setName(String n)
     {
@@ -64,6 +61,12 @@ public class task implements ActionListener
     public void setDone()
     {
         done = !done;
+    }
+    public void start(){
+        resume();
+    }
+    public void stop(){
+        pause();
     }
     void pause() {
     long now = System.currentTimeMillis();
@@ -82,6 +85,9 @@ void resume() {
     remaining -= elapsed; // adjust remaining time
     lastUpdate = now;
     time.updateTime((int)((remaining+500)/1000));
+    if(time.returnTimeInSeconds()==0){
+        done=true;
+    }
 }
 public void actionPerformed(ActionEvent e) {
     updateDisplay();
